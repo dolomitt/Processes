@@ -6,75 +6,48 @@
   <bpmn:process id="Process_1" isExecutable="false">
     <bpmn:laneSet>
       <bpmn:lane id="ScrumMaster" name="Scrum Master">
-        <bpmn:flowNodeRef>Sprint</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>ExclusiveGateway_17r875w</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>SprintReview</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Task_13jorh7</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>ExclusiveGateway_114ppes</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>SprintPlanningMeeting</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>SprintReviewMeeting</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>SprintRetrospectiveMeeting</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>StartSprint</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="ProjectLeader" name="Project Leader">
-        <bpmn:flowNodeRef>IKOM</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>ParallelGateway_0v36j0k</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>ParallelGateway_1795c56</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>IR</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>StartEvent_1</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>VLR</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>PMM</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>TRR</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>ConductActivitiesPostVLR</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>CheckValidationReviewOutcome</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>EndEvent_0n77so7</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>ParallelGateway_1b7l32p</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>InitiateReview</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>IKOM</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ValidationReviewMeeting</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>TransferReviewMeeting</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>PostMortemMeeting</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="SolutionArchitect" name="Solution Architect">
-        <bpmn:flowNodeRef>HLD</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>InitiateHLD</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="ValidationLeader" name="Validation Leader">
-        <bpmn:flowNodeRef>SVVP</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>InitiateSVVP</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="ProductOwner" name="Product Owner">
         <bpmn:flowNodeRef>LaunchPhase</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
-    <bpmn:sequenceFlow id="SequenceFlow_16kcdih" sourceRef="ParallelGateway_0v36j0k" targetRef="HLD" />
-    <bpmn:sequenceFlow id="SequenceFlow_1v2cimv" sourceRef="HLD" targetRef="ParallelGateway_1795c56" />
-    <bpmn:sequenceFlow id="SequenceFlow_1llvowb" sourceRef="ParallelGateway_0v36j0k" targetRef="SVVP" />
-    <bpmn:sequenceFlow id="SequenceFlow_1sn0pyf" sourceRef="SVVP" targetRef="ParallelGateway_1795c56" />
-    <bpmn:sequenceFlow id="SequenceFlow_1ymy80d" sourceRef="IR" targetRef="Sprint" />
-    <bpmn:sequenceFlow id="ValidationReviewNegativeOutcome" name="Rejected" sourceRef="CheckValidationReviewOutcome" targetRef="Sprint">
+    <bpmn:sequenceFlow id="SequenceFlow_16kcdih" sourceRef="ParallelGateway_0v36j0k" targetRef="InitiateHLD" />
+    <bpmn:sequenceFlow id="SequenceFlow_1v2cimv" sourceRef="InitiateHLD" targetRef="ParallelGateway_1795c56" />
+    <bpmn:sequenceFlow id="SequenceFlow_1llvowb" sourceRef="ParallelGateway_0v36j0k" targetRef="InitiateSVVP" />
+    <bpmn:sequenceFlow id="SequenceFlow_1sn0pyf" sourceRef="InitiateSVVP" targetRef="ParallelGateway_1795c56" />
+    <bpmn:sequenceFlow id="SequenceFlow_1ymy80d" sourceRef="InitiateReview" targetRef="SprintPlanningMeeting" />
+    <bpmn:sequenceFlow id="ValidationReviewNegativeOutcome" name="Rejected" sourceRef="CheckValidationReviewOutcome" targetRef="SprintPlanningMeeting">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[Decision = "Rejected"]]></bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_1mbkioj" sourceRef="LaunchPhase" targetRef="IKOM" />
-    <bpmn:sequenceFlow id="SequenceFlow_04yrxwp" sourceRef="SprintReview" targetRef="ExclusiveGateway_17r875w" />
+    <bpmn:sequenceFlow id="SequenceFlow_04yrxwp" sourceRef="SprintReviewMeeting" targetRef="ExclusiveGateway_17r875w" />
     <bpmn:sequenceFlow id="SequenceFlow_15sh687" sourceRef="StartEvent_1" targetRef="LaunchPhase" />
-    <bpmn:manualTask id="IKOM" name="Perform Internal Kick Off Meeting">
-      <bpmn:documentation><![CDATA[Participate in: 
-* "Solution Project Leader" if assigned to this Project 
-* Project Team Members 
-* Scrum Master 
-* Product Owner 
-* QAO 
-* CMO 
-* Software Security Architect or Software Security Community Member 
-* Product Architect(s) 
-* QA lead(s) 
-* DBA (DataBase Analyst) 
-* Technical Experts 
-* Tuner/Profiler 
-* SWH Managers as Delivery Center Manager of the project team 
-* "Maintenance Team" representative 
-* GGS representative(s) Is Informed: SID, GGS Technical Governance]]></bpmn:documentation>
-      <bpmn:extensionElements>
-        <camunda:inputOutput>
-          <camunda:inputParameter name="ProjectCode" />
-          <camunda:inputParameter name="ProjectName" />
-          <camunda:outputParameter name="KickOffMeetingMinutes" />
-        </camunda:inputOutput>
-      </bpmn:extensionElements>
-      <bpmn:incoming>SequenceFlow_1mbkioj</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_169jas1</bpmn:outgoing>
-    </bpmn:manualTask>
     <bpmn:parallelGateway id="ParallelGateway_0v36j0k">
       <bpmn:incoming>SequenceFlow_169jas1</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1llvowb</bpmn:outgoing>
@@ -85,23 +58,14 @@
       <bpmn:incoming>SequenceFlow_1v2cimv</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_05igqgk</bpmn:outgoing>
     </bpmn:parallelGateway>
-    <bpmn:manualTask id="IR" name="Initiate Review">
-      <bpmn:extensionElements>
-        <camunda:inputOutput>
-          <camunda:inputParameter name="InitiateReviewSlidesUrl" />
-        </camunda:inputOutput>
-      </bpmn:extensionElements>
-      <bpmn:incoming>SequenceFlow_05igqgk</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1ymy80d</bpmn:outgoing>
-    </bpmn:manualTask>
     <bpmn:sequenceFlow id="SequenceFlow_169jas1" sourceRef="IKOM" targetRef="ParallelGateway_0v36j0k" />
-    <bpmn:sequenceFlow id="SequenceFlow_05igqgk" sourceRef="ParallelGateway_1795c56" targetRef="IR" />
+    <bpmn:sequenceFlow id="SequenceFlow_05igqgk" sourceRef="ParallelGateway_1795c56" targetRef="InitiateReview" />
     <bpmn:startEvent id="StartEvent_1" name="Project Started">
       <bpmn:outgoing>SequenceFlow_15sh687</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:sequenceFlow id="SequenceFlow_1sljvug" sourceRef="ExclusiveGateway_114ppes" targetRef="Sprint" />
+    <bpmn:sequenceFlow id="SequenceFlow_1sljvug" sourceRef="ExclusiveGateway_114ppes" targetRef="SprintPlanningMeeting" />
     <bpmn:sequenceFlow id="SequenceFlow_12ll69p" name="No" sourceRef="ExclusiveGateway_17r875w" targetRef="ExclusiveGateway_114ppes" />
-    <bpmn:manualTask id="SVVP" name="Initiate SVVP">
+    <bpmn:manualTask id="InitiateSVVP" name="Initiate SVVP">
       <bpmn:extensionElements>
         <camunda:inputOutput>
           <camunda:outputParameter name="SVVP" />
@@ -110,65 +74,14 @@
       <bpmn:incoming>SequenceFlow_1llvowb</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1sn0pyf</bpmn:outgoing>
     </bpmn:manualTask>
-    <bpmn:manualTask id="HLD" name="Initiate HLD">
-      <bpmn:extensionElements>
-        <camunda:inputOutput>
-          <camunda:outputParameter name="HLD" />
-        </camunda:inputOutput>
-      </bpmn:extensionElements>
-      <bpmn:incoming>SequenceFlow_16kcdih</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1v2cimv</bpmn:outgoing>
-    </bpmn:manualTask>
-    <bpmn:manualTask id="LaunchPhase" name="Launch Phase">
-      <bpmn:extensionElements>
-        <camunda:inputOutput>
-          <camunda:inputParameter name="ProjectName" />
-          <camunda:outputParameter name="KickOffMeetingDate" />
-          <camunda:outputParameter name="ProductVisionDocument" />
-          <camunda:outputParameter name="InitialProductBacklog" />
-        </camunda:inputOutput>
-      </bpmn:extensionElements>
-      <bpmn:incoming>SequenceFlow_15sh687</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1mbkioj</bpmn:outgoing>
-    </bpmn:manualTask>
-    <bpmn:sequenceFlow id="SequenceFlow_1wk8c1s" sourceRef="Task_13jorh7" targetRef="ExclusiveGateway_114ppes" />
-    <bpmn:sequenceFlow id="SequenceFlow_0b66rbp" sourceRef="Sprint" targetRef="StartSprint" />
-    <bpmn:task id="Sprint" name="Perform Sprint Planning">
-      <bpmn:extensionElements>
-        <camunda:inputOutput>
-          <camunda:inputParameter name="SprintNumber" />
-          <camunda:inputParameter name="SprintStartDate" />
-          <camunda:inputParameter name="SprintEndDate" />
-          <camunda:outputParameter name="SprintBacklog" />
-        </camunda:inputOutput>
-      </bpmn:extensionElements>
-      <bpmn:incoming>ValidationReviewNegativeOutcome</bpmn:incoming>
-      <bpmn:incoming>SequenceFlow_1ymy80d</bpmn:incoming>
-      <bpmn:incoming>SequenceFlow_1sljvug</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_0b66rbp</bpmn:outgoing>
-    </bpmn:task>
-    <bpmn:sequenceFlow id="SequenceFlow_181h8u3" sourceRef="StartSprint" targetRef="SprintReview" />
+    <bpmn:sequenceFlow id="SequenceFlow_1wk8c1s" sourceRef="SprintRetrospectiveMeeting" targetRef="ExclusiveGateway_114ppes" />
+    <bpmn:sequenceFlow id="SequenceFlow_0b66rbp" sourceRef="SprintPlanningMeeting" targetRef="StartSprint" />
+    <bpmn:sequenceFlow id="SequenceFlow_181h8u3" sourceRef="StartSprint" targetRef="SprintReviewMeeting" />
     <bpmn:exclusiveGateway id="ExclusiveGateway_17r875w" name="Iterations Over">
       <bpmn:incoming>SequenceFlow_04yrxwp</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0w7raub</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_12ll69p</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:manualTask id="VLR" name="Perform Validation Review">
-      <bpmn:extensionElements>
-        <camunda:inputOutput>
-          <camunda:inputParameter name="AnomalyListReport" />
-          <camunda:outputParameter name="Decision">
-            <camunda:list>
-              <camunda:value>Rejected</camunda:value>
-              <camunda:value>Passed</camunda:value>
-            </camunda:list>
-          </camunda:outputParameter>
-          <camunda:outputParameter name="ValidationReviewMeetingMinutes" />
-        </camunda:inputOutput>
-      </bpmn:extensionElements>
-      <bpmn:incoming>SequenceFlow_0w7raub</bpmn:incoming>
-      <bpmn:outgoing>GotoValidationReviewOutcome</bpmn:outgoing>
-    </bpmn:manualTask>
     <bpmn:parallelGateway id="ConductActivitiesPostVLR">
       <bpmn:incoming>ValidationReviewPosiOutcome</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_14h9xn6</bpmn:outgoing>
@@ -179,15 +92,6 @@
       <bpmn:outgoing>ValidationReviewNegativeOutcome</bpmn:outgoing>
       <bpmn:outgoing>ValidationReviewPosiOutcome</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:manualTask id="PMM" name="Perform Post Mortem Meeting">
-      <bpmn:extensionElements>
-        <camunda:inputOutput>
-          <camunda:outputParameter name="PostMortemMeetingMinutes" />
-        </camunda:inputOutput>
-      </bpmn:extensionElements>
-      <bpmn:incoming>SequenceFlow_14h9xn6</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_00i2joi</bpmn:outgoing>
-    </bpmn:manualTask>
     <bpmn:parallelGateway id="ParallelGateway_1b7l32p">
       <bpmn:incoming>SequenceFlow_00i2joi</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_0y04apl</bpmn:incoming>
@@ -196,50 +100,69 @@
     <bpmn:endEvent id="EndEvent_0n77so7" name="Project Closed">
       <bpmn:incoming>SequenceFlow_12bx10c</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:manualTask id="TRR" name="Perform Transfer Review">
-      <bpmn:extensionElements>
-        <camunda:inputOutput>
-          <camunda:outputParameter name="TransferReviewMeetingMinutes" />
-        </camunda:inputOutput>
-      </bpmn:extensionElements>
-      <bpmn:incoming>SequenceFlow_00yjpvf</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_0y04apl</bpmn:outgoing>
-    </bpmn:manualTask>
-    <bpmn:sequenceFlow id="SequenceFlow_0w7raub" name="Yes" sourceRef="ExclusiveGateway_17r875w" targetRef="VLR" />
-    <bpmn:sequenceFlow id="GotoValidationReviewOutcome" sourceRef="VLR" targetRef="CheckValidationReviewOutcome" />
+    <bpmn:sequenceFlow id="SequenceFlow_0w7raub" name="Yes" sourceRef="ExclusiveGateway_17r875w" targetRef="ValidationReviewMeeting" />
+    <bpmn:sequenceFlow id="GotoValidationReviewOutcome" sourceRef="ValidationReviewMeeting" targetRef="CheckValidationReviewOutcome" />
     <bpmn:sequenceFlow id="ValidationReviewPosiOutcome" name="Passed" sourceRef="CheckValidationReviewOutcome" targetRef="ConductActivitiesPostVLR">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[Decision = "Passed"]]></bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_00yjpvf" sourceRef="ConductActivitiesPostVLR" targetRef="TRR" />
-    <bpmn:sequenceFlow id="SequenceFlow_14h9xn6" sourceRef="ConductActivitiesPostVLR" targetRef="PMM" />
-    <bpmn:sequenceFlow id="SequenceFlow_00i2joi" sourceRef="PMM" targetRef="ParallelGateway_1b7l32p" />
-    <bpmn:sequenceFlow id="SequenceFlow_0y04apl" sourceRef="TRR" targetRef="ParallelGateway_1b7l32p" />
+    <bpmn:sequenceFlow id="SequenceFlow_00yjpvf" sourceRef="ConductActivitiesPostVLR" targetRef="TransferReviewMeeting" />
+    <bpmn:sequenceFlow id="SequenceFlow_14h9xn6" sourceRef="ConductActivitiesPostVLR" targetRef="PostMortemMeeting" />
+    <bpmn:sequenceFlow id="SequenceFlow_00i2joi" sourceRef="PostMortemMeeting" targetRef="ParallelGateway_1b7l32p" />
+    <bpmn:sequenceFlow id="SequenceFlow_0y04apl" sourceRef="TransferReviewMeeting" targetRef="ParallelGateway_1b7l32p" />
     <bpmn:sequenceFlow id="SequenceFlow_12bx10c" sourceRef="ParallelGateway_1b7l32p" targetRef="EndEvent_0n77so7" />
-    <bpmn:task id="SprintReview" name="Perform Sprint Review">
-      <bpmn:extensionElements>
-        <camunda:inputOutput>
-          <camunda:inputParameter name="SprintReviewSlidesUrl" />
-          <camunda:outputParameter name="SprintReviewMeetingMinutesUrl" />
-        </camunda:inputOutput>
-      </bpmn:extensionElements>
-      <bpmn:incoming>SequenceFlow_181h8u3</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_014xlfy</bpmn:outgoing>
-      <bpmn:outgoing>SequenceFlow_04yrxwp</bpmn:outgoing>
-    </bpmn:task>
-    <bpmn:task id="Task_13jorh7" name="Perform Sprint Retrospective">
-      <bpmn:incoming>SequenceFlow_014xlfy</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1wk8c1s</bpmn:outgoing>
-    </bpmn:task>
-    <bpmn:sequenceFlow id="SequenceFlow_014xlfy" sourceRef="SprintReview" targetRef="Task_13jorh7" />
+    <bpmn:sequenceFlow id="SequenceFlow_014xlfy" sourceRef="SprintReviewMeeting" targetRef="SprintRetrospectiveMeeting" />
     <bpmn:exclusiveGateway id="ExclusiveGateway_114ppes">
       <bpmn:incoming>SequenceFlow_1wk8c1s</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_12ll69p</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1sljvug</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:task id="StartSprint" name="Start Sprint">
+    <bpmn:userTask id="SprintPlanningMeeting" name="Perform Sprint Planning">
+      <bpmn:incoming>SequenceFlow_1ymy80d</bpmn:incoming>
+      <bpmn:incoming>ValidationReviewNegativeOutcome</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_1sljvug</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0b66rbp</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="InitiateReview" name="Initiate Review">
+      <bpmn:incoming>SequenceFlow_05igqgk</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1ymy80d</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="IKOM" name="Perform Internal Kick Off Meeting">
+      <bpmn:incoming>SequenceFlow_1mbkioj</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_169jas1</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="LaunchPhase" name="Launch Phase">
+      <bpmn:incoming>SequenceFlow_15sh687</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1mbkioj</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="InitiateHLD" name="Initiate HLD">
+      <bpmn:incoming>SequenceFlow_16kcdih</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1v2cimv</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="ValidationReviewMeeting" name="Perform Validation Review">
+      <bpmn:incoming>SequenceFlow_0w7raub</bpmn:incoming>
+      <bpmn:outgoing>GotoValidationReviewOutcome</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="TransferReviewMeeting" name="Perform Transfer Review">
+      <bpmn:incoming>SequenceFlow_00yjpvf</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0y04apl</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="PostMortemMeeting" name="Perform Post Mortem Meeting">
+      <bpmn:incoming>SequenceFlow_14h9xn6</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_00i2joi</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="SprintReviewMeeting" name="Perform Sprint Review">
+      <bpmn:incoming>SequenceFlow_181h8u3</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_04yrxwp</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_014xlfy</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="SprintRetrospectiveMeeting" name="Perform Sprint Retrospective">
+      <bpmn:incoming>SequenceFlow_014xlfy</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1wk8c1s</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="StartSprint" name="Start Sprint">
       <bpmn:incoming>SequenceFlow_0b66rbp</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_181h8u3</bpmn:outgoing>
-    </bpmn:task>
+    </bpmn:userTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_07cv7we">
@@ -327,7 +250,7 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_14h9xn6_di" bpmnElement="SequenceFlow_14h9xn6">
         <di:waypoint xsi:type="dc:Point" x="2148" y="67" />
-        <di:waypoint xsi:type="dc:Point" x="2149" y="34" />
+        <di:waypoint xsi:type="dc:Point" x="2148" y="34" />
         <di:waypoint xsi:type="dc:Point" x="2237" y="34" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="2160" y="69" width="90" height="20" />
@@ -348,15 +271,6 @@
           <dc:Bounds x="2032" y="72" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ManualTask_1xul2ny_di" bpmnElement="IKOM">
-        <dc:Bounds x="478" y="52" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ManualTask_0rpc7ef_di" bpmnElement="IR">
-        <dc:Bounds x="1019" y="52" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ManualTask_1oo0f1q_di" bpmnElement="VLR">
-        <dc:Bounds x="1798" y="52" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ExclusiveGateway_0omc3c7_di" bpmnElement="CheckValidationReviewOutcome" isMarkerVisible="true">
         <dc:Bounds x="1971" y="67" width="50" height="50" />
         <bpmndi:BPMNLabel>
@@ -365,18 +279,6 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Lane_08drllt_di" bpmnElement="ValidationLeader">
         <dc:Bounds x="125" y="605" width="2573" height="135" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Task_0clm3y7_di" bpmnElement="SprintReview">
-        <dc:Bounds x="1500" y="321" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Task_0mx2b41_di" bpmnElement="Sprint">
-        <dc:Bounds x="1156" y="321" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ManualTask_1twrn4y_di" bpmnElement="TRR">
-        <dc:Bounds x="2237" y="125" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ManualTask_16w6i11_di" bpmnElement="PMM">
-        <dc:Bounds x="2237" y="-6" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Lane_1eosk6w_di" bpmnElement="SolutionArchitect">
         <dc:Bounds x="125" y="873" width="2573" height="154" />
@@ -460,17 +362,8 @@
           <dc:Bounds x="403" y="433" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ManualTask_0xntdcz_di" bpmnElement="LaunchPhase">
-        <dc:Bounds x="299" y="762" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ManualTask_03h03l8_di" bpmnElement="SVVP">
+      <bpmndi:BPMNShape id="ManualTask_03h03l8_di" bpmnElement="InitiateSVVP">
         <dc:Bounds x="692" y="630" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ManualTask_14qoxnh_di" bpmnElement="HLD">
-        <dc:Bounds x="692" y="899" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Task_13jorh7_di" bpmnElement="Task_13jorh7">
-        <dc:Bounds x="1500" y="435" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_014xlfy_di" bpmnElement="SequenceFlow_014xlfy">
         <di:waypoint xsi:type="dc:Point" x="1550" y="401" />
@@ -524,9 +417,6 @@
           <dc:Bounds x="1644" y="391" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="Task_0jl0oct_di" bpmnElement="StartSprint">
-        <dc:Bounds x="1315" y="321" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0b66rbp_di" bpmnElement="SequenceFlow_0b66rbp">
         <di:waypoint xsi:type="dc:Point" x="1256" y="361" />
         <di:waypoint xsi:type="dc:Point" x="1315" y="361" />
@@ -546,6 +436,39 @@
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1286" y="577" width="90" height="20" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_1le6c30_di" bpmnElement="SprintPlanningMeeting">
+        <dc:Bounds x="1156" y="321" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_0j1sov1_di" bpmnElement="InitiateReview">
+        <dc:Bounds x="1019" y="52" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_0j4khsl_di" bpmnElement="IKOM">
+        <dc:Bounds x="478" y="52" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_0loour9_di" bpmnElement="LaunchPhase">
+        <dc:Bounds x="299" y="762" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_0kutzzj_di" bpmnElement="InitiateHLD">
+        <dc:Bounds x="692" y="899" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_1hvj7ly_di" bpmnElement="ValidationReviewMeeting">
+        <dc:Bounds x="1798" y="52" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_0kdfhas_di" bpmnElement="TransferReviewMeeting">
+        <dc:Bounds x="2237" y="125" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_16ytq39_di" bpmnElement="PostMortemMeeting">
+        <dc:Bounds x="2237" y="-6" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_1g2q8ir_di" bpmnElement="SprintReviewMeeting">
+        <dc:Bounds x="1500" y="321" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_1oclzwb_di" bpmnElement="SprintRetrospectiveMeeting">
+        <dc:Bounds x="1500" y="435" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_0tnefag_di" bpmnElement="StartSprint">
+        <dc:Bounds x="1315" y="321" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
